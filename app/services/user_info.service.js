@@ -11,8 +11,6 @@ module.exports = service_user;
 
 function getInformation(){
   var deferred = Q.defer();
-//var lmtdata = [];
-//console.log("name: "+custId);
 
   users.find({},function(err,result){
     if(err){
@@ -22,6 +20,6 @@ function getInformation(){
   });
 
   return deferred.promise;
-  //console.log(data);
+
 
 }

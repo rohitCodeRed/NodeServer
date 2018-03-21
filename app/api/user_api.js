@@ -1,6 +1,6 @@
 var express = require('express');
 var request = require('request');
-var rp = require('request-promise');
+//var rp = require('request-promise');
 //var async = require('asyncawait/async');
 //var await = require('asyncawait/await');
 var stringify = require('json-stringify');
@@ -25,9 +25,8 @@ var service_user =  require('../services/user_info.service');     // get an inst
 //    //return data;
 // });
 
-router.get('/user',function(req, res) {
+router.get('/users',function(req, res) {
 
-//console.log(req.data);
 service_user.getInfo().then(function(result){
     if(result){
       console.log(result);

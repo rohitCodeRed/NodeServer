@@ -14,22 +14,24 @@ app.use(bodyParser.json({ type: 'application/vnd.api+json' }));
 app.use(express.static(__dirname + '/public'));
 app.set(port);
 
-//mongoose.connect('mongodb://localhost:27017/nodeServer',{ useMongoClient:true });
-//mongoose.Promise = global.Promise;
-//var db = mongoose.connection;
+mongoose.connect('mongodb://localhost:27017/angularNode',{ useMongoClient:true });
+mongoose.Promise = global.Promise;
+var db = mongoose.connection;
 
 
-//db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
+app.use(function (req, res, next) {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+app.use('/api', require('./app/api/user_api'));
 
-//app.use('/api', require('./app/api/user_api'));
-//app.use('/api',require('./app/api/dialogFlow_query.api'));
-//app.use('/api',require('./app/api/beautifyResponse.api'));
-//app.get("/offers")
 app.get('/', function(req, res) {
-        res.send("Hello world"); // load the single view file (angular will handle the page changes on the front-end)
-    });
+  res.send("Hello world"); // load the single view file (angular will handle the page changes on the front-end)
+});
 
 app.listen(port, function(){
-  console.log('Example app listening on port 3000! ');
+  console.log('Example app listening on port: '+port);
 });
