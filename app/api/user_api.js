@@ -1,11 +1,11 @@
-var express = require('express');
-var request = require('request');
+const express = require('express');
+const request = require('request');
 //var rp = require('request-promise');
 //var async = require('asyncawait/async');
 //var await = require('asyncawait/await');
-var stringify = require('json-stringify');
-var router = express.Router();
-var service_user =  require('../services/user_info.service');     // get an instance of the express Router
+const stringify = require('json-stringify');
+const router = express.Router();
+const service_user =  require('../services/user_info.service');     // get an instance of the express Router
 
 // middleware to use for all requests
 // var options = {
