@@ -1,19 +1,19 @@
 const express = require('express');
-const request = require('request');
+//const request = require('request');
 //var rp = require('request-promise');
 const async = require('asyncawait/async');
 const await = require('asyncawait/await');
 const stringify = require('json-stringify');
 const router = express.Router();
 const service_user =  require('../services/user_info.service');     // get an instance of the express Router
-const auth_user = require('../services/auth_user.service');
+const service_auth_user = require('../services/auth_user.service');
 
 
 // middleware to authenticate the loggedIn User..
 
-const middleware = async (function (req,res,next) {
+var middleware = async (function (req,res,next) {
   try{
-    let  userId = await auth_user.authBytoken(req.get("token"));
+    let  userId = await (service_auth_user.authBytoken(req.get("token")));
     console.log(stringify(req.path));
     req.data.authUserId = userId;
     next();
@@ -28,7 +28,7 @@ const middleware = async (function (req,res,next) {
 
 router.get('/user/list',middleware,function(req, res) {
 
-  service_user.getInfo().then(function(result){
+  service_user.getListUser().then(function(result){
       if(result){
         console.log(result);
         res.send(result);

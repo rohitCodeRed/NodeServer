@@ -4,12 +4,12 @@ var users = require('../model/user_info.model');
 var service_user ={};
 
 
-service_user.getInfo = getInformation;
+service_user.getInfo = getInfo;
 
 
 module.exports = service_user;
 
-function getInformation(){
+function getInfo(){
   var deferred = Q.defer();
 
   users.find({},function(err,result){
@@ -20,6 +20,20 @@ function getInformation(){
   });
 
   return deferred.promise;
+}
 
+function getListUser(){
 
+}
+
+function createUser(){
+
+}
+
+function updateUser(){
+
+}
+
+function deleteUser(){
+  
 }

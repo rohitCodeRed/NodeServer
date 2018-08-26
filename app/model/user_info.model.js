@@ -4,10 +4,10 @@ var schema = mongoose.Schema;
 var userSchema = new schema({
   id : Number,
   name:String,
-  token:String,
   username:String,
   password:String,
-  loggedIn:Boolean
+  loggedIn:Boolean,
+  onCreated:{ type: Date, default: Date.now }
 
 });
 

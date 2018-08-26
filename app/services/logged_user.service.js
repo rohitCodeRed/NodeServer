@@ -1,6 +1,7 @@
 const users = require('../model/user_info.model');
 const authPromise = require('promise');
 const logged_user = {};
+const acess_token = require('./acess_token.service');
 
 logged_user.resgister = resgister;
 logged_user.loggedIn = loggedIn;
@@ -11,7 +12,7 @@ function resgister(data){
 
 }
 
-function loggedIn(data){
+function loggedIn(username,password){
 
 }
 
