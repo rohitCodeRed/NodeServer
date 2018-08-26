@@ -9,7 +9,7 @@ service_user.getInfo = getInfo;
 
 module.exports = service_user;
 
-function getInfo(){
+function getListUser(){
   var deferred = Q.defer();
 
   users.find({},function(err,result){
@@ -22,7 +22,7 @@ function getInfo(){
   return deferred.promise;
 }
 
-function getListUser(){
+function getInfo(id){
 
 }
 
@@ -30,10 +30,10 @@ function createUser(){
 
 }
 
-function updateUser(){
+function updateUser(id,data){
 
 }
 
-function deleteUser(){
-  
+function deleteUser(id){
+
 }
