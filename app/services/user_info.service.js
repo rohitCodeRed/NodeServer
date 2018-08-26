@@ -1,4 +1,4 @@
-var mongoose = require('mongoose');
+//var mongoose = require('mongoose');
 var Q = require('q');
 var users = require('../model/user_info.model');
 var service_user ={};

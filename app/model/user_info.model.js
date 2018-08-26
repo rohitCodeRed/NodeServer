@@ -3,8 +3,12 @@ var schema = mongoose.Schema;
 
 var userSchema = new schema({
   id : Number,
-  name:String
-  
+  name:String,
+  token:String,
+  username:String,
+  password:String,
+  loggedIn:Boolean
+
 });
 
 //var customer = mongoose.model('customer', userSchema);
