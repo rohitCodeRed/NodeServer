@@ -40,7 +40,7 @@ router.get('/user/loggedIn',function(req, res) {
 
 router.get('/user/loggedOut',middleware,function(req, res) {
 
-  logged_user.loggedOut(req.data.authUserId).then(function(result){
+  logged_user.loggedOut(req.authUserId).then(function(result){
       if(result){
         console.log(result);
         res.send(result);
@@ -53,9 +53,9 @@ router.get('/user/loggedOut',middleware,function(req, res) {
 
 });
 
-router.get('/user/register',function(req, res) {
+router.post('/user/register',function(req, res) {
 
-  logged_user.resgister(req.data).then(function(result){
+  logged_user.resgister(req.body).then(function(result){
       if(result){
         console.log(result);
         res.send(result);

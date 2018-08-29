@@ -5,6 +5,7 @@ const stringify = require('json-stringify');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const si = require('systeminformation');
+const config = require('./config.js');
 
 const port = process.env.PORT || 3000;
 
@@ -21,10 +22,11 @@ app.set(port);
 
 //mongo db connection
 
-mongoose.connect('mongodb://localhost:27017/angularNode',{ useMongoClient:true });
+mongoose.connect(config.mongoDB_url,{ useMongoClient:true });
 //adding promise library to mongoose object..
-mongoose.Promise = require('promise');
+//mongoose.Promise = global.Promise;
 let db = mongoose.connection;
+//db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 //monitering connection of MongoDB
 db.then(function(result){

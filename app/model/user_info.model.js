@@ -1,12 +1,14 @@
-var mongoose = require('mongoose');
-var schema = mongoose.Schema;
+const mongoose = require('mongoose');
+const schema = mongoose.Schema;
+const crypto = require('crypto');
 
 var userSchema = new schema({
-  id : Number,
-  name:String,
+  _id : {type:String,default:crypto.randomBytes(16).toString('hex')},
+  nickname:String,
   username:String,
   password:String,
-  loggedIn:Boolean,
+  token:{type:String,default:crypto.randomBytes(16).toString('hex')},
+  loggedIn:{type:Boolean,default:false},
   onCreated:{ type: Date, default: Date.now }
 
 });

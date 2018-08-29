@@ -15,7 +15,7 @@ var middleware = async (function (req,res,next) {
   try{
     let  userId = await (service_auth_user.authBytoken(req.get("token")));
     console.log(stringify(req.path));
-    req.data.authUserId = userId;
+    req.authUserId = userId;
     next();
   }
   catch(e){

@@ -8,17 +8,13 @@ service_auth_user.authBytoken = authBytoken;
 
 function authBytoken(token){
 
-  var Id = acess_token.getAuthUserId(token);
-  users.find({"_id":Id},function(err,result){
-    if(err && !result){
-      return authPromise.reject(new Error(err));;
-    }
-    return authPromise.resolve(Id);
+  acess_token.getAuthUserId(token).then(function(authUserId){
+    authPromise.resolve(authUserId);
+  }).catch(function(err){
+    authPromise.reject(new Error(err));
   });
+
   return authPromise;
 }
-
-
-
 
 module.exports = service_auth_user;
