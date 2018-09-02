@@ -1,7 +1,7 @@
 const users = require('../model/user_info.model');
-const loggedInPromise = require('promise');
+const Promise = require('promise');
 const loggedOutPromise = require('promise');
-const registerPromise = require('promise');
+
 const logged_user = {};
 const acess_token = require('./acess_token.service');
 
@@ -11,50 +11,81 @@ logged_user.loggedOut = loggedOut;
 
 
 function resgister(data){
-  const createUser = new users(data);
-  createUser.save(err => {
-    if (err) return registerPromise.reject(new Error(err));
-    return registerPromise.resolve({"username":createUser.username,"nickname":createUser.nickname,"onCreated":createUser.onCreated});
+
+  let registerPromise = new Promise((resolve,reject)=>{
+    users.findOne({"username":data.username},function(err,result){
+      if(!result){
+        let hashPass = acess_token.getHashToken(data.password);
+        data.password = hashPass;
+        let createUser = new users(data);
+        createUser.save(err => {
+          if (err) { reject(new Error(err.message));}
+          else{resolve({"username":createUser.username,"nickname":createUser.nickname,"onCreated":createUser.onCreated});}
+        });
+      }else{
+        reject(new Error("User already exist!"));
+      }
+    });
   });
+
+  //console.log("promise",registerPromise);
   return registerPromise;
 }
 
 function loggedIn(username,password){
-  var hashPass = acess_token.getHashToken(password);
 
-  users.findOne({"username":username,"password":hashPass},function(err,result){
-    if(result){
-        users.findByIdAndUpdate(result._id,{"loggedIn":true},{new: true},(err, todo) => {
-          // Handle any possible database errors
-          if (err){
-            loggedInPromise.reject(new Error(err));
-          }
-          else{
-            let jwtToken = acess_token.getJwtToken(result.token);
-            loggedInPromise.resolve(jwtToken);
-          }
-        });
-        //loggedPromise.resolve(jwtToken);
-      }
-      else if(err){
-        loggedInPromise.reject(new Error(err));
-      }
+  let loggedInPromise = new Promise((resolve,reject)=>{
+    var hashPass = acess_token.getHashToken(password);
+    users.findOne({"username":username,"password":hashPass},function(err,result){
+      if(result){
+          users.findByIdAndUpdate(result._id,{"loggedIn":true},{new: true},(err, todo) => {
+            // Handle any possible database errors
+            if (err){
+              reject(new Error(err.message));
+            }
+            else{
+              let jwtToken = acess_token.getJwtToken(result._id);
+              resolve(jwtToken);
+            }
+          });
+          //loggedPromise.resolve(jwtToken);
+        }
+        else if(err){
+          reject(new Error(err.message));
+        }
+        else{
+          reject(new Error("Invalid user"));
+        }
 
+    });
   });
+
+
   return loggedInPromise;
 }
 
 function loggedOut(authUserId){
-  users.findByIdAndUpdate(authUserId,{"loggedIn":false},{new: true},(err, todo) => {
-// Handle any possible database errors
-    if (err){
-      loggedOutPromise.reject(new Error(err));
-    }
-    else{
-      loggedOutPromise.resolve(true);
-    }
+  let loggedOutPromise = new Promise((resolve,reject)=>{
+    users.findOne({"_id":authUserId,"loggedIn":true},function(err,result){
+      if(result){
+        users.findByIdAndUpdate(authUserId,{"loggedIn":false},{new: true},(err, todo) => {
+          // Handle any possible database errors
+          if (err){
+            reject(new Error(err.message));
+          }
+          else{
+            resolve(true);
+          }
+
+        });
+      }
+      else{
+        reject(new Error("User already logged out or not found!"));
+      }
+    });
 
   });
+
   return loggedOutPromise;
 }
 

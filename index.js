@@ -6,14 +6,13 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const si = require('systeminformation');
 const config = require('./config.js');
-
 const port = process.env.PORT || 3000;
 
-const methodOverride = require('method-override');
+
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json({ type: 'application/json' }));
-app.use(bodyParser.json({ type: 'application/vnd.api+json' }));
+
 
 //app.use(express.static(__dirname + '/public'));
 
@@ -30,7 +29,7 @@ let db = mongoose.connection;
 
 //monitering connection of MongoDB
 db.then(function(result){
-  console.log("MongoDB connection established..",result);
+  console.log("\n**-----------MongoDB connection established------------**\n DB:",result.name,"\n Host:",result.host,"\n Port:",result.port);
 },function(error){
   console.log(error.message);
 })
@@ -44,8 +43,9 @@ app.use(function (req, res, next) {
 });
 
 //handle Users api request from client...
-app.use('/api', require('./app/api/user_api'));
-app.use('/api', require('./app/api/logged_user_api'));
+app.use('/api/user', require('./app/api/user_api'));
+app.use('/api/logged', require('./app/api/logged_user_api'));
+app.use('/api/apiAcess',require('./app/api/api_acess'));
 
 app.use('/', function(req, res) {
    //load the single view file (angular will handle the page changes on the front-end)

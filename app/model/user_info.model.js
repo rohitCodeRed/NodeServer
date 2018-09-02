@@ -7,10 +7,10 @@ var userSchema = new schema({
   nickname:String,
   username:String,
   password:String,
-  token:{type:String,default:crypto.randomBytes(16).toString('hex')},
+  // token:{type:String,default:crypto.randomBytes(16).toString('hex')},
   loggedIn:{type:Boolean,default:false},
+  createdBy:String,
   onCreated:{ type: Date, default: Date.now }
-
 });
 
 //var customer = mongoose.model('customer', userSchema);

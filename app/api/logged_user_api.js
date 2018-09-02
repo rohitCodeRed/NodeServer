@@ -10,9 +10,9 @@ const await = require('asyncawait/await');
 
 var middleware = async (function (req,res,next) {
   try{
-    let  userId = await (service_auth_user.authBytoken(req.get("token")));
-    console.log(stringify(req.path));
-    req.data.authUserId = userId;
+    let  userId = await (service_auth_user.authBytoken(req.headers['authorization']));
+    //console.log(stringify(req.path));
+    req.data = {"authUserId":userId};
     next();
   }
   catch(e){
@@ -23,9 +23,9 @@ var middleware = async (function (req,res,next) {
 });
 
 
-router.get('/user/loggedIn',function(req, res) {
+router.post('/loggedIn',function(req, res) {
 
-  logged_user.loggedIn(req.get("username"),req.get('password')).then(function(result){
+  logged_user.loggedIn(req.body['username'],req.body['password']).then(function(result){
       if(result){
         console.log(result);
         res.send(result);
@@ -33,14 +33,14 @@ router.get('/user/loggedIn',function(req, res) {
         res.status(400).send("Unable to loggedIn user");
       }
     }).catch(function(err){
-      res.sendStatus(400);
+      res.status(400).send(err.message);
     });
 
 });
 
-router.get('/user/loggedOut',middleware,function(req, res) {
+router.get('/loggedOut',middleware,function(req, res) {
 
-  logged_user.loggedOut(req.authUserId).then(function(result){
+  logged_user.loggedOut(req.data.authUserId).then(function(result){
       if(result){
         console.log(result);
         res.send(result);
@@ -48,12 +48,12 @@ router.get('/user/loggedOut',middleware,function(req, res) {
         res.status(400).send("Unable to loggedOut user");
       }
     }).catch(function(err){
-      res.sendStatus(400);
+      res.status(400).send(err.message);
     });
 
 });
 
-router.post('/user/register',function(req, res) {
+router.post('/register',function(req, res) {
 
   logged_user.resgister(req.body).then(function(result){
       if(result){
@@ -63,9 +63,10 @@ router.post('/user/register',function(req, res) {
         res.status(400).send("Unable to register user");
       }
     }).catch(function(err){
-      res.sendStatus(400);
+      res.status(400).send(err.message);
     });
 
+ //res.send(stringify(req));
 });
 
 module.exports = router;
