@@ -1,6 +1,6 @@
-FROM node:7
+FROM node:8
 WORKDIR /node_app
-COPY ~/DevOpsImage/nodeServer/ /app
+COPY . /node_app
 RUN npm install
 CMD node index.js
 EXPOSE 3001
