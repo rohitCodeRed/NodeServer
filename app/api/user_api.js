@@ -91,8 +91,8 @@ router.put('/update/:id',middleware,function(req,res){
 router.delete('/delete/:id',middleware,function(req,res){
   service_user.deleteUser(req.data.authUserId,req.params.id).then(function(result){
       if(result){
-        console.log(result.result);
-        res.send(result.result);
+        console.log(result);
+        res.send(result);
       }else{
         res.status(400).send("Unable to delete user");
       }

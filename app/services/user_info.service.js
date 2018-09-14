@@ -4,6 +4,7 @@ const Promise = require('promise');
 const users = require('../model/user_info.model');
 const service_user = {};
 const acess_token = require('./acess_token.service');
+const mongoose = require('mongoose');
 
 service_user.getListUser = getListUser;
 service_user.getInfoById = getInfoById;
@@ -15,8 +16,8 @@ service_user.deleteUser = deleteUser;
 
 function getListUser(callerId){
  let userListPromise = new Promise((resolve,reject)=>{
-   let regex = new RegExp(callerId);
-   users.find({"_id":{$not:regex}},function(err,result){
+   //let regex = new RegExp(callerId);
+   users.find({"_id":{$ne:callerId}},function(err,result){
      if(err){
        reject(new Error(err.message));
      }
@@ -38,7 +39,8 @@ function getListUser(callerId){
 
 function getInfoById(callerId,userId){
   let userByIdPromise = new Promise((resolve,reject)=>{
-    if(callerId != userId){
+    userId = mongoose.Types.ObjectId(userId);
+    if(callerId != userId ){
       users.find({"_id":userId},function(err,result){
         if(err){
           reject(new Error(err.message));
@@ -94,6 +96,7 @@ function createUser(callerId,data){
 
 function updateUser(callerId,userId,data){
   let updateUserPromise = new Promise((resolve,reject)=>{
+    userId = mongoose.Types.ObjectId(userId);
     if(callerId != userId){
       users.findByIdAndUpdate(userId,data,{new: true},(err, result) => {
         // Handle any possible database errors
@@ -117,6 +120,7 @@ function updateUser(callerId,userId,data){
 
 function deleteUser(callerId,userId){
   let deleteUserPromise = new Promise((resolve,reject)=>{
+    userId = mongoose.Types.ObjectId(userId);
     if(callerId != userId){
       users.remove({"_id":userId},(err, result) => {
         // Handle any possible database errors

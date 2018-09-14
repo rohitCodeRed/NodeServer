@@ -3,6 +3,8 @@ const crypto = require('crypto');
 const { privateKey } = require('../../config.js');
 const jwt = require('jsonwebtoken');
 const service_acess_token = {};
+const mongoose = require('mongoose');
+//const mongoose = require('mongoose').Schema.ObjectId;
 
 const Promise = require('promise');
 
@@ -21,7 +23,7 @@ function getHashToken(password){
 }
 
 function getJwtToken(token){
-  let jwtToken = jwt.sign({"id":token}, privateKey, { expiresIn:"7d"});
+  let jwtToken = jwt.sign({"id":token.toString()}, privateKey, { expiresIn:"7d"});
   return jwtToken;
 }
 
@@ -70,7 +72,9 @@ function verifyJwtToken(token){
  let decodePromise = new Promise((resolve,reject)=>{
    jwt.verify(token,privateKey,function(err,result){
      if(!err){
-        resolve(result.id);
+       console.log(result.id);
+
+        resolve(mongoose.Types.ObjectId(result.id));
      }
      else{
        reject(new Error(err.message));

@@ -3,7 +3,7 @@ const schema = mongoose.Schema;
 const crypto = require('crypto');
 
 var userSchema = new schema({
-  //_id : {type:String,default:crypto.randomBytes(16).toString('hex')},
+  //{type:String,default:crypto.randomBytes(16).toString('hex')},
   nickname:String,
   username:String,
   password:String,
