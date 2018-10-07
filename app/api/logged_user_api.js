@@ -10,6 +10,7 @@ const await = require('asyncawait/await');
 
 var middleware = async (function (req,res,next) {
   try{
+    //console.log(stringify(req.headers));
     let  userId = await (service_auth_user.authBytoken(req.headers['authorization']));
     //console.log(stringify(req.path));
     req.data = {"authUserId":userId};

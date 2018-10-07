@@ -45,7 +45,8 @@ function loggedIn(username,password){
             }
             else{
               let jwtToken = acess_token.getJwtToken(result._id);
-              resolve(jwtToken);
+              let obj = {"token":jwtToken,"username":result.username,"nickname":result.nickname};
+              resolve(obj);
             }
           });
           //loggedPromise.resolve(jwtToken);
