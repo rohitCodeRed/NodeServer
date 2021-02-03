@@ -1,2 +1,2 @@
 # nodeServer
-Handling all the server query.
+Controll and monitered by jenkins docker image.
