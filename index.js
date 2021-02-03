@@ -19,21 +19,6 @@ app.use(bodyParser.json({ type: 'application/json' }));
 //setting a port
 app.set(port);
 
-//mongo db connection
-
-mongoose.connect(config.mongoDB_url,{ useMongoClient:true });
-//adding promise library to mongoose object..
-//mongoose.Promise = global.Promise;
-let db = mongoose.connection;
-//db.on('error', console.error.bind(console, 'MongoDB connection error:'));
-
-//monitering connection of MongoDB
-db.then(function(result){
-  console.log("\n**-----------MongoDB connection established------------**\n DB:",result.name,"\n Host:",result.host,"\n Port:",result.port);
-},function(error){
-  console.log(error.message);
-})
-
 
 //allowing same origin api requests...
 app.use(function (req, res, next) {
@@ -64,6 +49,28 @@ app.use('/', function(req, res) {
 app.listen(port, function(){
   console.log('Example app listening on port: '+port);
 });
+
+//Connecting to mongoDB
+mongoose.connect(config.mongoDB_url,{
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useFindAndModify: false,
+  useCreateIndex: true
+});
+//adding promise library to mongoose object..
+//mongoose.Promise = global.Promise;
+let db = mongoose.connection;
+//db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+
+//monitering connection of MongoDB
+db.then(function(result){
+  console.log("\n**-----------MongoDB connection established------------**\n DB:",result.name,"\n Host:",result.host,"\n Port:",result.port);
+  console.log("Timer closed.");
+//clearInterval(timerId);
+},function(error){
+  console.log("Mongo DB connection error: ",JSON.stringify(error.message));
+  //console.log("\n\n-----Trying reconnecting... after 2 sec----");
+})
 
 
 

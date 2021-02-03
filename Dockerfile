@@ -1,6 +1,11 @@
-FROM node:8
-WORKDIR /node_app
-COPY . /node_app
+FROM node:14.15.4
+RUN mkdir -p /usr/src/app
+COPY . /usr/src/app/
+WORKDIR /usr/src/app
+RUN ls -al
 RUN npm install
-CMD node index.js
 EXPOSE 3001
+CMD ["node", "index.js"]
+
+
+

@@ -34,6 +34,7 @@ router.post('/loggedIn',function(req, res) {
         res.status(400).send("Unable to loggedIn user");
       }
     }).catch(function(err){
+      console.log("Login on server",err);
       res.status(400).send(err.message);
     });
 
@@ -64,6 +65,7 @@ router.post('/register',function(req, res) {
         res.status(400).send("Unable to register user");
       }
     }).catch(function(err){
+      console.log("Register on server",err);
       res.status(400).send(err.message);
     });
 

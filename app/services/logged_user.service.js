@@ -55,7 +55,7 @@ function loggedIn(username,password){
           reject(new Error(err.message));
         }
         else{
-          reject(new Error("Invalid user"));
+          reject(new Error("Invalid user with wrong password or username."));
         }
 
     });
