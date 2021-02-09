@@ -1,2 +1,2 @@
 # nodeServer
-Controll and monitered by jenkins docker image.
+Controll and monitered by project https://github.com/rohitCodeRed/sabdkosh-devOps-image 
