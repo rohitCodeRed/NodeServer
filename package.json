@@ -23,6 +23,6 @@
     "q": "^1.5.1",
     "string-split": "^0.3.1",
     "sync-request": "^4.1.0",
-    "systeminformation": "^3.42.9"
+    "systeminformation": "^5.6.4"
   }
 }
